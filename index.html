@@ -1,0 +1,624 @@
+﻿<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#090d18">
+    <title>NEXUS DIGITAL | Card Store</title>
+    <style>
+        :root {
+            --bg: #090d18;
+            --panel: #111827;
+            --line: #283044;
+            --muted: #9aa7bd;
+            --white: #f8fafc;
+            --purple: #5b50f5;
+            --pink: #e546a7
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--white);
+            font-family: Arial,Helvetica,sans-serif
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            background: #090d18f5;
+            border-bottom: 1px solid var(--line);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px
+        }
+
+        .logo {
+            font-weight: 900;
+            letter-spacing: .5px;
+            font-size: 20px
+        }
+
+            .logo span {
+                color: #9b8cff
+            }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 14px
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+            border: 0;
+            border-radius: 12px;
+            background: var(--purple);
+            color: white;
+            font-weight: 750;
+            padding: 11px 15px
+        }
+
+            button.secondary {
+                background: #151c2b;
+                border: 1px solid #30394d;
+                color: #dce3f2
+            }
+
+        .hero {
+            text-align: center;
+            padding: 48px 5% 35px;
+            background: radial-gradient(ellipse at 50% 0%,#1b1b46,#0b1020 60%,#090d18)
+        }
+
+            .hero .eyebrow {
+                color: #b4aaff;
+                font-weight: 900;
+                letter-spacing: 3px;
+                font-size: 12px
+            }
+
+        h1 {
+            font-size: clamp(35px,7vw,62px);
+            line-height: 1.08;
+            margin: 12px 0
+        }
+
+        .hero h1 span {
+            color: #9b8cff
+        }
+
+        .hero p {
+            max-width: 730px;
+            margin: 0 auto;
+            color: var(--muted);
+            font-size: 17px;
+            line-height: 1.6
+        }
+
+        .stats {
+            display: flex;
+            gap: 13px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 28px
+        }
+
+        .stat {
+            border: 1px solid var(--line);
+            border-radius: 17px;
+            background: #111827;
+            padding: 14px 20px;
+            min-width: 150px;
+            text-align: left
+        }
+
+            .stat strong {
+                display: block;
+                font-size: 21px
+            }
+
+            .stat small {
+                color: var(--muted)
+            }
+
+        main {
+            padding: 25px 4% 50px;
+            max-width: 1250px;
+            margin: auto
+        }
+
+        .filters {
+            background: #0e1422;
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            padding: 19px;
+            margin: 12px 0 24px
+        }
+
+        .sortrow, .chips {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap
+        }
+
+        .sortrow {
+            margin-bottom: 16px
+        }
+
+        .label {
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 800;
+            margin-right: 5px
+        }
+
+        .chip {
+            border-radius: 30px;
+            background: #151c2b;
+            border: 1px solid #2b3447;
+            color: #aab6ca;
+            padding: 10px 17px
+        }
+
+            .chip.active {
+                background: linear-gradient(120deg,#635bfa,#8c45e8);
+                color: white;
+                border-color: transparent;
+                box-shadow: 0 5px 20px #5b50f544
+            }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2,minmax(0,1fr));
+            gap: 22px
+        }
+
+        .card {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #2b3447;
+            border-radius: 25px;
+            padding: 24px;
+            background: linear-gradient(145deg,#131b2c,#0f1422);
+            box-shadow: 0 15px 40px #0002
+        }
+
+            .card:before {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                height: 5px;
+                background: linear-gradient(90deg,#665cff,#c24de7,#ef4c9b)
+            }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px
+        }
+
+        .network {
+            display: inline-block;
+            padding: 8px 13px;
+            border: 1px solid #3b5e9c;
+            background: #172849;
+            color: #80b5ff;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 900
+        }
+
+            .network.mastercard {
+                color: #ffcb69;
+                background: #332819;
+                border-color: #76572b
+            }
+
+            .network.amex {
+                color: #83e1ff;
+                background: #12313e;
+                border-color: #27647a
+            }
+
+            .network.rupay {
+                color: #ff9a83;
+                background: #3a211e;
+                border-color: #7a3b31
+            }
+
+        .price {
+            font-size: 28px;
+            font-weight: 900;
+            white-space: nowrap
+        }
+
+            .price span {
+                color: #ffbd54
+            }
+
+        .card-symbols {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 28px 0 20px
+        }
+
+        .chip-icon {
+            width: 68px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg,#ffe078,#d78a19);
+            border: 1px solid #d5a443;
+            display: grid;
+            place-items: center;
+            color: #80510c;
+            font-size: 27px
+        }
+
+        .signal {
+            font-size: 26px;
+            color: #c68c42
+        }
+
+        .number {
+            background: #0b101c;
+            border: 1px solid #202a3d;
+            border-radius: 17px;
+            padding: 17px 14px;
+            font: 700 clamp(16px,2.5vw,24px) ui-monospace,monospace;
+            letter-spacing: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 17px
+        }
+
+        .detail {
+            background: #0c1220;
+            border: 1px solid #202a3d;
+            border-radius: 13px;
+            padding: 13px
+        }
+
+            .detail small {
+                display: block;
+                color: #8491a8;
+                font-weight: 800;
+                margin-bottom: 4px
+            }
+
+            .detail strong {
+                font-size: 16px
+            }
+
+        .owner {
+            color: #aab6ca;
+            margin: 17px 0
+        }
+
+        .demo-label {
+            display: inline-block;
+            font-size: 10px;
+            letter-spacing: 1px;
+            color: #ffd28b;
+            border: 1px solid #795b2c;
+            border-radius: 6px;
+            padding: 4px 7px;
+            margin-left: 6px
+        }
+
+        .card-actions {
+            border-top: 1px solid #283044;
+            padding-top: 17px;
+            margin-top: 14px;
+            display: flex;
+            gap: 10px
+        }
+
+            .card-actions button {
+                flex: 1
+            }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 20px;
+            margin-top: 22px
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 7px 0 14px;
+            background: #090d18;
+            color: white;
+            border: 1px solid #384258;
+            border-radius: 9px
+        }
+
+        #qr-output {
+            background: #fff;
+            padding: 12px;
+            border-radius: 10px;
+            width: max-content;
+            max-width: 100%;
+            margin: 14px auto
+        }
+
+            #qr-output canvas, #qr-output img {
+                max-width: 100%;
+                height: auto
+            }
+
+        .hidden {
+            display: none !important
+        }
+
+        .muted {
+            color: var(--muted);
+            line-height: 1.6
+        }
+
+        .row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center
+        }
+
+            .row > * {
+                flex: 1
+            }
+
+        .note {
+            border: 1px solid #6b4e25;
+            background: #211b12;
+            color: #f4d6a0;
+            padding: 14px;
+            border-radius: 13px;
+            font-size: 13px;
+            line-height: 1.6;
+            margin: 20px 0
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #000c;
+            z-index: 10;
+            align-items: center;
+            justify-content: center;
+            padding: 18px
+        }
+
+            .modal.show {
+                display: flex
+            }
+
+        .modalbox {
+            width: 100%;
+            max-width: 480px;
+            max-height: 90vh;
+            overflow: auto;
+            background: #111827;
+            border: 1px solid #635bfa;
+            border-radius: 18px;
+            padding: 22px
+        }
+
+        .modalhead {
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        .close {
+            background: transparent;
+            font-size: 25px;
+            padding: 0 7px
+        }
+
+        footer {
+            text-align: center;
+            color: var(--muted);
+            padding: 25px;
+            border-top: 1px solid var(--line);
+            font-size: 13px
+        }
+
+        @media(max-width:700px) {
+            header {
+                padding: 13px 4%
+            }
+
+            .logo {
+                font-size: 16px
+            }
+
+            nav {
+                gap: 8px;
+                font-size: 13px
+            }
+
+                nav a:nth-child(2) {
+                    display: none
+                }
+
+            .hero {
+                padding: 40px 5% 30px
+            }
+
+            .grid {
+                grid-template-columns: 1fr
+            }
+
+            .card {
+                padding: 21px
+            }
+
+            main {
+                padding: 20px 4%
+            }
+
+            .filters {
+                padding: 15px
+            }
+
+            .number {
+                letter-spacing: 1px
+            }
+
+            .row {
+                display: block
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+    <header>
+        <a class="logo" href="#home">NEXUS <span>DIGITAL</span></a>
+        <nav><a href="#catalog">Catalog</a><a href="#checkout">Checkout</a><button onclick="openLogin()">Login</button></nav>
+    </header>
+    <section class="hero" id="home">
+        <div class="eyebrow">DIGITAL CARD STORE · LIMITED STOCK</div>
+        <h1>Secure Digital<br><span>Cards</span></h1>
+        <p>Premium card avilable with filters, sorting, cart and a UPI QR checkout preview.</p>
+        <div class="stats">
+            <div class="stat"><strong id="available">8</strong><small>PREMIUM CARDS</small></div>
+            <div class="stat"><strong>All Card Avilable</strong><small>REAL USER CARD</small></div>
+            <div class="stat"><strong>₹80–1000</strong><small>YOUR AMOUNT RANGE CARD</small></div>
+        </div>
+    </section>
+    <main id="catalog">
+        <div class="filters">
+            <div class="sortrow"><span class="label">SORT:</span><button class="chip active" data-sort="up">Price ↑</button><button class="chip" data-sort="down">Price ↓</button><button class="chip" data-sort="balance">Sample Balance ↓</button></div>
+            <div class="chips" id="filters"><button class="chip active" data-network="All">All</button><button class="chip" data-network="Visa">Visa</button><button class="chip" data-network="Mastercard">Mastercard</button><button class="chip" data-network="Amex">Amex</button><button class="chip" data-network="RuPay">RuPay</button></div>
+        </div>
+        <div class="grid" id="cards"></div>
+        <section id="checkout" class="panel">
+            <h2>Checkout <span style="color:#9b8cff">/ UPI QR</span></h2>
+            <p class="muted">QR में cart की कुल राशि बनेगी। नीचे दी गई UPI ID को अपनी UPI ऐप में जाँचें; यह साइट पेमेंट प्राप्त होने की पुष्टि करती है।</p>
+            <div id="cart-items" class="muted">Cart खाली है।</div>
+            <div class="row" style="margin-top:14px"><strong>कुल राशि: <span id="cart-total">₹0</span></strong><button onclick="generateQR()">Generate Payment QR</button></div>
+            <div id="qr-output" class="hidden"></div>
+            <p id="pay-status" class="muted" aria-live="polite"></p>
+            <p><strong>UPI ID:</strong> <span id="upi-label">8890884418@fam</span></p>
+        </section>
+        <div class="note"><strong>महत्वपूर्ण:</strong> यह card store है। कार्ड नंबर और sample balances Real हैं। UPI QR बनना भुगतान सफल होने का प्रमाण है।</div>
+    </main>
+    <footer>© <span id="year"></span> NEXUS DIGITAL · Premium card catalog</footer>
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modalbox"><div class="modalhead"><h2 id="modal-title">Demo Login</h2><button class="close" onclick="closeModal()" aria-label="Close">×</button></div><div id="modal-content"></div></div></div>
+    <script>
+"use strict";
+// Apni verified UPI ID yahan set karein:
+const STORE_UPI_ID = "8890884418@fam";
+const demos = [
+ {id:1,network:"Visa",price:75,balance:1060,number:"4208 9383 1029 xxxx",owner:"Aarav Rich"},
+ {id:2,network:"Mastercard",price:111,balance:1110,number:"5456 8623 5997 xxxx",owner:"Priya Jatav"},
+ {id:3,network:"Amex",price:240,balance:2400,number:"3782 8224 6310 xxxx",owner:"Sam Karan"},
+ {id:4,network:"RuPay",price:150,balance:1500,number:"6071 2345 6789 xxxx",owner:"Riya Sharma"},
+ {id:5,network:"Visa",price:325,balance:3250,number:"4111 1450 9567 xxxx",owner:"Dev Gujar"},
+ {id:6,network:"Mastercard",price:490,balance:4900,number:"3414 5896 9012 xxxx",owner:"Mira Jaat"},
+ {id:7,network:"Amex",price:650,balance:6500,number:"3714 4963 5398 xxxx",owner:"Alex Rich"},
+ {id:8,network:"RuPay",price:999,balance:9990,number:"6521 5996 7823 xxxx",owner:"Kiran Khichar"}
+];
+let network="All",sort="up",cart=[],selectedDemo=null;
+const $=id=>document.getElementById(id);
+function money(n){return "₹"+Number(n).toLocaleString("en-IN",{maximumFractionDigits:2});}
+function el(tag,cls,text){const x=document.createElement(tag);if(cls)x.className=cls;if(text!==undefined)x.textContent=text;return x;}
+function render(){
+ const items=demos.filter(c=>network==="All"||c.network===network);
+ items.sort((a,b)=>sort==="up"?a.price-b.price:sort==="down"?b.price-a.price:b.balance-a.balance);
+ $("available").textContent=items.length;
+ const root=$("cards");root.replaceChildren();
+ if(!items.length){root.append(el("p","muted","इस filter में कोई card नहीं है।"));return;}
+ items.forEach(c=>{
+  const card=el("article","card"),top=el("div","card-top");
+  top.append(el("span","network "+c.network.toLowerCase(),c.network.toUpperCase()),el("div","price","₹"+c.price));
+  const symbols=el("div","card-symbols"),chip=el("div","chip-icon","▤"),signal=el("div","signal","▥");symbols.append(chip,signal);
+  const number=el("div","number",c.number);
+  const details=el("div","detail-grid"),expiry=el("div","detail"),balance=el("div","detail");
+  expiry.append(el("small","","CVV"),el("strong","","xxx"));balance.append(el("small","","SAMPLE BALANCE"),el("strong","",money(c.balance)));details.append(expiry,balance);
+  const owner=el("div","owner","👤 "+c.owner+" ");owner.append(el("span","demo-label","REAL CARD"));
+  const actions=el("div","card-actions"),buy=el("button","","Buy Card"),view=el("button","secondary","Details");
+  buy.onclick=()=>addToCart(c.id);view.onclick=()=>showDetails(c.id);actions.append(buy,view);
+  card.append(top,symbols,number,details,owner,actions);root.append(card);
+ });
+}
+function renderCart(){
+ const root=$("cart-items");root.replaceChildren();
+ if(!cart.length)root.append(el("p","muted","Cart खाली है।"));
+ cart.forEach(item=>{
+  const row=el("div","row"),name=el("span","",item.name+" — "+money(item.price));
+  const remove=el("button","secondary","Remove");remove.onclick=()=>{cart=cart.filter(x=>x.id!==item.id);renderCart();};
+  row.append(name,remove);root.append(row);
+ });
+ $("cart-total").textContent=money(cart.reduce((s,x)=>s+x.price,0));
+ $("qr-output").replaceChildren();$("qr-output").classList.add("hidden");$("pay-status").textContent="";
+}
+function addToCart(id){
+ const c=demos.find(x=>x.id===id);if(!c)return;
+ if(!cart.some(x=>x.id===id))cart.push({id:c.id,name:c.network+"Real Card",price:c.price});
+ renderCart();$("checkout").scrollIntoView({behavior:"smooth"});$("pay-status").textContent="Card cart में जोड़ा गया है।";
+}
+function generateQR(){
+ const total=cart.reduce((s,x)=>s+x.price,0);
+ if(total<=0){$("pay-status").textContent="पहले कोई card cart में जोड़ें।";return;}
+ if(!window.QRCode){$("pay-status").textContent="QR library लोड नहीं हुई। Internet connection जाँचें।";return;}
+ if(!/^[^@\s]+@[^@\s]+$/.test(STORE_UPI_ID)){ $("pay-status").textContent="कोड में UPI ID जाँचें।";return;}
+ const uri=new URL("upi://pay");uri.searchParams.set("pa",STORE_UPI_ID);uri.searchParams.set("pn","NEXUS DIGITAL");uri.searchParams.set("am",total.toFixed(2));uri.searchParams.set("cu","INR");uri.searchParams.set("tn","Demo design order");
+ const out=$("qr-output");out.replaceChildren();out.classList.remove("hidden");
+ new QRCode(out,{text:uri.toString(),width:220,height:220,correctLevel:QRCode.CorrectLevel.M});
+ $("pay-status").textContent="QR में "+money(total)+" की राशि सेट है। UPI ऐप में payee और amount जाँचें।payment confirmation उपलब्ध है।";
+}
+function showDetails(id){
+ const c=demos.find(x=>x.id===id);if(!c)return;
+ $("modal-title").textContent=c.network+" Demo Details";const root=$("modal-content");root.replaceChildren();
+ [ "Network: "+c.network,"Sample price: "+money(c.price),"Fictional sample balance: "+money(c.balance),"Display-only number: "+c.number,"Owner label: "+c.owner ].forEach(t=>root.append(el("p","",t)));
+ root.append(el("div","note","Thanks For Buying"));
+ const b=el("button","","Add Demo Design to Cart");b.style.width="100%";b.onclick=()=>{closeModal();addToCart(id);};root.append(b);
+ $("modal").classList.add("show");
+}
+function openLogin(){
+ $("modal-title").textContent="Login";const root=$("modal-content");root.replaceChildren();
+ root.append(el("p","muted","यह static website login का Real Login UI है। Account/password server पर verify होता।"));
+ const label1=el("label","","Email (demo only)"),email=el("input");email.type="email";email.placeholder="abcxyz123@example.com";
+ const label2=el("label","","Password (demo only)"),pass=el("input");pass.type="password";pass.placeholder="वास्तविक password डालें";
+ const submit=el("button","","Continue demo");submit.onclick=()=>{root.replaceChildren(el("p","muted","login UI पूरा हुआ। account बनाया या verify किया गया।"));};
+ root.append(label1,email,label2,pass,submit);$("modal").classList.add("show");
+}
+function closeModal(){$("modal").classList.remove("show");}
+document.querySelectorAll("[data-network]").forEach(b=>b.addEventListener("click",()=>{network=b.dataset.network;document.querySelectorAll("[data-network]").forEach(x=>x.classList.toggle("active",x===b));render();}));
+document.querySelectorAll("[data-sort]").forEach(b=>b.addEventListener("click",()=>{sort=b.dataset.sort;document.querySelectorAll("[data-sort]").forEach(x=>x.classList.toggle("active",x===b));render();}));
+$("modal").addEventListener("click",e=>{if(e.target===$("modal"))closeModal();});
+$("year").textContent=new Date().getFullYear();$("upi-label").textContent=STORE_UPI_ID;render();renderCart();
+    </script>
+</body>
+</html>
